@@ -126,7 +126,7 @@ class Login extends React.Component {
         // Move this to error message
         this.props.msg({
           message:
-            "There has been an error, Petio may be temporarily unavailable",
+            "There has been an error, Ponpon may be temporarily unavailable",
           type: "error",
         });
 
@@ -250,7 +250,7 @@ class Login extends React.Component {
                 <TmdbLogo />
               </a>
             </div>
-            <p className="powered-by">Petio Admin build {pjson.version}</p>
+            <p className="powered-by">Ponpon Admin build {pjson.version}</p>
           </>
         ) : (
           <div className="spinner">

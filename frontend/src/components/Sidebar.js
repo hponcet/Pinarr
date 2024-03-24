@@ -33,7 +33,7 @@ class Sidebar extends React.Component {
     return (
       <div className="sidebar--inner">
         <Link to="/" className="logo">
-          <p className="logo-text" title="Petio">
+          <p className="logo-text" title="Ponpon">
             Pon<span>pon</span>
           </p>
         </Link>

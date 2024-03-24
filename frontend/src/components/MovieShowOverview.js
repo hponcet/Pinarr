@@ -414,9 +414,9 @@ class MovieShowOverview extends React.Component {
                   <span
                     className="desktop-only"
                     style={{ cursor: "help" }}
-                    title="Petio reviews are a combination of Petio users on this server and external user reviews."
+                    title="Ponpon reviews are a combination of Ponpon users on this server and external user reviews."
                   >
-                    Petio:{" "}
+                    Ponpon:{" "}
                   </span>
                   <span
                     className={`rating d-nm color-${

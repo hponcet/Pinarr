@@ -54,7 +54,7 @@ class Requests extends React.Component {
     let calendarData = this.state.calendar.map((item) => {
       if (item.series) {
         let time = new Date(item.airDateUtc);
-        return ({
+        return {
           title: `${item.series.title} - S${item.seasonNumber.toLocaleString(
             "en-US",
             {
@@ -69,21 +69,21 @@ class Requests extends React.Component {
           start: time,
           end: time,
           resource: item,
-        });
+        };
       } else {
         let time = new Date(item.inCinemas);
-        return ({
+        return {
           title: item.title,
           allDay: true,
           start: time,
           end: time,
           resource: item,
-        });
+        };
       }
     });
 
     this.setState({
-      calendarData
+      calendarData,
     });
   }
 
@@ -155,12 +155,15 @@ class Requests extends React.Component {
       return (
         <div className="calendar--event--wrap">
           <div
-            className={`calendar--event ${event.resource.hasFile ? "recorded" : ""
-              } ${this.isToday(new Date(event.resource.airDateUtc))
+            className={`calendar--event ${
+              event.resource.hasFile ? "recorded" : ""
+            } ${
+              this.isToday(new Date(event.resource.airDateUtc))
                 ? "airsToday"
                 : ""
-              } ${new Date(event.resource.airDateUtc) < new Date() ? "hasAired" : ""
-              }`}
+            } ${
+              new Date(event.resource.airDateUtc) < new Date() ? "hasAired" : ""
+            }`}
           >
             <div className="calendar--event--icon">
               {event.resource.series ? <TvIcon /> : <MovieIcon />}
@@ -188,7 +191,7 @@ class Requests extends React.Component {
               </p>
               <p>
                 <span className="request-status manual">No Status</span> - This
-                means the request cannot be tracked by Petio
+                means the request cannot be tracked by Ponpon
               </p>
               <p>
                 <span className="request-status bad">Unavailable</span> -
@@ -247,13 +250,15 @@ class Requests extends React.Component {
                   return (
                     <tr
                       key={req._id}
-                      className={`generic-table--row--${req.removed ? "bad" : req.complete ? "good" : "normal"
-                        }`}
+                      className={`generic-table--row--${
+                        req.removed ? "bad" : req.complete ? "good" : "normal"
+                      }`}
                     >
                       <td>
                         <Link
-                          to={`/${req.type === "movie" ? "movie" : "series"}/${req.tmdb_id
-                            }`}
+                          to={`/${req.type === "movie" ? "movie" : "series"}/${
+                            req.tmdb_id
+                          }`}
                         >
                           {req.title}
                         </Link>
@@ -264,8 +269,8 @@ class Requests extends React.Component {
                         {req.removed
                           ? "Removed"
                           : req.complete
-                            ? "Completed"
-                            : "other"}
+                          ? "Completed"
+                          : "other"}
                       </td>
                     </tr>
                   );

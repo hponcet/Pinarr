@@ -244,12 +244,12 @@ class Setup extends React.Component {
         to = 1000;
         break;
       case 8:
-        text = "Building your Petio library...";
+        text = "Building your Ponpon library...";
         to = 3000;
         break;
       case 9:
         text =
-          "Building your Petio library... Grab a cup of tea this could take a few minutes...";
+          "Building your Ponpon library... Grab a cup of tea this could take a few minutes...";
         to = 1000;
         break;
       case 10:
@@ -259,12 +259,12 @@ class Setup extends React.Component {
         break;
       case 11:
         text =
-          "We're not done, but you can start using Petio now while the rest of your library scans. Just a second we'll let you in....";
+          "We're not done, but you can start using Ponpon now while the rest of your library scans. Just a second we'll let you in....";
         to = 120000;
         break;
       case 12:
         text =
-          "We're not done, but you can start using Petio now while the rest of your library scans. Just a second we'll let you in....";
+          "We're not done, but you can start using Ponpon now while the rest of your library scans. Just a second we'll let you in....";
         to = 3000;
         break;
       case 13:
@@ -370,8 +370,8 @@ class Setup extends React.Component {
           {this.state.step === 1 ? (
             <div className="step-1">
               <p>
-                Welcome to Petio, firstly lets log in to Plex to get all of your
-                user and server info
+                Welcome to Ponpon, firstly lets log in to Plex to get all of
+                your user and server info
               </p>
               <button className="btn btn__square" onClick={this.loginOauth}>
                 Login with plex
@@ -381,25 +381,25 @@ class Setup extends React.Component {
           {this.state.step === 2 ? (
             <div className="step-2">
               <p>
-                This is your Petio admin user details, we will use your Plex
-                Username / Email, but a custom password just for Petio can be
+                This is your Ponpon admin user details, we will use your Plex
+                Username / Email, but a custom password just for Ponpon can be
                 used.
               </p>
-              <p>Petio Admin Username</p>
+              <p>Ponpon Admin Username</p>
               <input
                 type="text"
                 name="username"
                 value={this.props.plex.user.username}
                 readOnly={true}
               />
-              <p>Petio Admin Email</p>
+              <p>Ponpon Admin Email</p>
               <input
                 type="email"
                 name="email"
                 value={this.props.plex.user.email}
                 readOnly={true}
               />
-              <p>Petio Admin Password</p>
+              <p>Ponpon Admin Password</p>
               <input
                 type="password"
                 name="password"
@@ -422,7 +422,7 @@ class Setup extends React.Component {
               {Object.keys(this.props.plex.servers).length === 0 ? (
                 <p>
                   You don&apos;t own any servers. Only the server owner can
-                  setup a Petio instance.
+                  setup a Ponpon instance.
                 </p>
               ) : (
                 Object.keys(this.props.plex.servers).map((key) => {
@@ -631,7 +631,7 @@ class Setup extends React.Component {
           </a>
         </div>
         <p className="setup--version">
-          Petio Admin build (alpha) {pjson.version}
+          Ponpon Admin build (alpha) {pjson.version}
         </p>
       </div>
     );

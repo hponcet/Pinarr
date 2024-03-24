@@ -15,8 +15,6 @@ import Movies from "./pages/Movies";
 import Requests from "./pages/Requests";
 import Shows from "./pages/Shows";
 import { ReactComponent as Spinner } from "./assets/svg/spinner.svg";
-import { ReactComponent as TmdbLogo } from "./assets/svg/tmdb.svg";
-import pjson from "../package.json";
 import Genre from "./pages/Genre";
 import Networks from "./pages/Networks";
 import Company from "./pages/Company";
@@ -274,7 +272,7 @@ class App extends React.Component {
         login_type: parseInt(res.login_type),
       });
       if (res.config === false) {
-        this.msg({ message: "Petio is not setup redirecting", type: "error" });
+        this.msg({ message: "Ponpon is not setup redirecting", type: "error" });
         window.location.href = "/admin/";
       }
     } catch {
@@ -374,7 +372,7 @@ class App extends React.Component {
                   <Switch>
                     <Route path="/invitation" exact>
                       <h1 className="logo">
-                        PET<span>IO</span>
+                        PON<span>PON</span>
                       </h1>
                       <p className="main-title">Invitation</p>
                       <form onSubmit={this.invitForm}>
@@ -401,7 +399,7 @@ class App extends React.Component {
                     </Route>
                     <Route path="*" exact>
                       <h1 className="logo">
-                        PET<span>IO</span>
+                        PON<span>PON</span>
                       </h1>
                       <p className="main-title">
                         {!this.state.adminLogin ? "Login" : "Admin Login"}
@@ -466,21 +464,6 @@ class App extends React.Component {
                   </Switch>
                 </HashRouter>
               </div>
-              <div className="credits">
-                <a href="https://fanart.tv/" target="_blank" rel="noreferrer">
-                  <p>
-                    <strong>FAN</strong>ART<span>.TV</span>
-                  </p>
-                </a>
-                <a
-                  href="https://www.themoviedb.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <TmdbLogo />
-                </a>
-              </div>
-              <p className="powered-by">Petio build {pjson.version}</p>
             </>
           ) : (
             <div className="spinner">
