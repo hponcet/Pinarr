@@ -30,7 +30,7 @@ hooksRouter.post("/", async (req, res) => {
     } catch (error) {
       res.status(404).json({
         level: "error",
-        message: "Organizr Api url or key isn't valid.",
+        message: error.message,
       });
       return;
     }

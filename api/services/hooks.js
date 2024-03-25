@@ -34,6 +34,7 @@ class Hooks {
             try {
               const { response } = await (
                 await fetch(fetchParams.url, {
+                  cors: "no-cors",
                   method: fetchParams.method,
                   headers: new Headers(fetchParams.headers),
                   body: fetchParams.data ? JSON.stringify(data) : undefined,
@@ -70,13 +71,19 @@ class Hooks {
 
   async testOrganizrAPI(url, key) {
     try {
-      const res = await fetch(url, { headers: { Token: key } });
+      const res = await fetch(url, {
+        headers: { Token: key },
+        cors: "no-cors",
+      });
 
       const organizrRes = await res.json();
 
-      if (!organizrRes.response.result === "success")
-        throw new Error("Failed to test organizr api");
+      if (organizrRes.response.result === "error") {
+        throw new Error(organizrRes.response.message);
+      }
     } catch (error) {
+      console.error(error);
+      logger.error(`[HOOKS] Failed to test Organizr API: ${error.message}`);
       throw error;
     }
   }
