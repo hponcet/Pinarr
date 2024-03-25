@@ -10,6 +10,8 @@ var multer = require("multer");
 const getConfig = require("../util/config");
 const fs = require("fs");
 const path = require("path");
+const hooks = require("../services/hooks");
+const { deletePlexUser } = require("../plex/invitations");
 const uploadPath = process.pkg
   ? path.join(path.dirname(process.execPath), `./config/uploads`)
   : path.join(__dirname, `../config/uploads`);
@@ -268,10 +270,22 @@ router.post("/delete_user", adminRequired, async (req, res) => {
     return;
   }
 
-  if (!user.custom) {
-    res.status(401).json({
-      error: "Cannot delete non custom users",
-    });
+  try {
+    await hooks.runHook("deleteUser", user);
+    logger.info(`ROUTE: ${user.email} deleted from hooks`);
+  } catch (error) {
+    logger.error(`ROUTE: Unable to run delete ${user.email} from hooks`);
+    logger.error({ level: "error", message: error });
+  }
+
+  try {
+    await deletePlexUser(user.id);
+    logger.info(`ROUTE: ${user.email} deleted from Plex`);
+  } catch (error) {
+    console.log(error);
+    logger.error(`ROUTE: Unable to run delete ${user.email} from Plex`);
+    logger.error({ level: "error", message: error });
+    res.status(500).json({ error: "Failed to delete user from Plex" });
     return;
   }
 

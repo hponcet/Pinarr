@@ -25,7 +25,7 @@ class Hooks {
     this.hooks[name].push(params);
   }
 
-  async runHook(name) {
+  async runHook(name, value) {
     logger.info(`[HOOKS] ${name} hooks called`);
 
     if (this.hooks[name]) {
@@ -33,30 +33,38 @@ class Hooks {
         await Promise.all(
           this.hooks[name].map(async (fetchParams) => {
             try {
-              const { response } = await (
-                await fetch(fetchParams.url, {
-                  cors: "no-cors",
-                  method: fetchParams.method,
-                  headers: new Headers(fetchParams.headers),
-                  body: fetchParams.data ? JSON.stringify(data) : undefined,
-                })
-              ).json();
+              if (typeof fetchParams === "function") {
+                fetchParams = await fetchParams(value);
+              }
 
-              logger.info(`[HOOKS] ${fetchParams.url} ${response.message}`);
+              const fetchResonse = await fetch(fetchParams.url, {
+                cors: "no-cors",
+                method: fetchParams.method,
+                headers: new Headers(fetchParams.headers),
+                body: fetchParams.data ? JSON.stringify(data) : undefined,
+              });
+
+              if (fetchParams.method === "DELETE") {
+                logger.info(`[HOOKS] ${fetchParams.url} well deleted`);
+                return;
+              }
+
+              const { response } = await fetchResonse.json();
 
               if (response.result !== "success") {
+                logger.error(`[HOOKS] ${fetchParams.url} ${response.message}`);
                 throw new Error(
                   `[${response.data.endpoint}] ${response.message}`
                 );
               }
+              logger.info(`[HOOKS] ${fetchParams.url} ${response.message}`);
             } catch (error) {
-              console.error(error);
               throw error;
             }
           })
         );
       } catch (error) {
-        console.error(error);
+        throw error;
       }
     }
   }
@@ -67,6 +75,26 @@ class Hooks {
       method: "POST",
       headers: { Token: key, accept: "*/*" },
       data: JSON.stringify({ type: "plex" }),
+    });
+
+    this.addHook("deleteUser", async (user) => {
+      const organizrUsers = await fetch(`${url}users`, {
+        headers: { Token: key },
+      });
+      const { response } = await organizrUsers.json();
+      const organizrUser = response.data.find(
+        (organizrUser) => organizrUser.email === user.email
+      );
+
+      if (!organizrUser) {
+        throw new Error("User not found in Organizr");
+      }
+
+      return {
+        url: `${url}users/${organizrUser.id}`,
+        method: "DELETE",
+        headers: { Token: key, accept: "*/*" },
+      };
     });
   }
 

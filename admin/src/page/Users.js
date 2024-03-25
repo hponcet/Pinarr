@@ -33,6 +33,7 @@ class Users extends React.Component {
     this.saveUser = this.saveUser.bind(this);
     this.findProfile = this.findProfile.bind(this);
     this.bulkSave = this.bulkSave.bind(this);
+    this.bulkDelete = this.bulkDelete.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.fileUpload = this.fileUpload.bind(this);
   }
@@ -307,20 +308,30 @@ class Users extends React.Component {
     }
   }
 
-  async deleteUser() {
-    let del = await Api.deleteUser(this.state.activeUser);
+  async deleteUser(user) {
+    const userToDelete = user || this.state.activeUser;
+
+    if (!userToDelete) {
+      this.props.msg({
+        message: `No user selected to delete`,
+        type: "error",
+      });
+      return;
+    }
+
+    let del = await Api.deleteUser(userToDelete);
 
     if (del.error) {
       this.setState({
         eu_error: del.error,
       });
       this.props.msg({
-        message: `Failed to Delete User: ${this.state.activeUser.username}`,
+        message: `Failed to Delete User: ${userToDelete.username}`,
         type: "error",
       });
     } else {
       this.props.msg({
-        message: `User Deleted: ${this.state.activeUser.username}`,
+        message: `User Deleted: ${userToDelete.username}`,
         type: "good",
       });
       this.closeModal("editUser");
@@ -368,6 +379,23 @@ class Users extends React.Component {
       this.closeModal("bulkUsers");
       Api.allUsers();
     }
+  }
+
+  async bulkDelete() {
+    let users = new Array();
+    Object.keys(this.state.bulk_users).forEach((u) => {
+      if (this.state.bulk_users[u]) {
+        const user = Object.values(this.props.api.users).find(
+          (user) => user._id === u
+        );
+        if (user) users.push(user);
+      }
+    });
+
+    for (let i = 0; i < users.length; i++) {
+      await this.deleteUser(users[i]);
+    }
+    this.closeModal("bulkUsers");
   }
 
   async fileUpload(e) {
@@ -485,13 +513,7 @@ class Users extends React.Component {
           open={this.state.editUserOpen}
           close={() => this.closeModal("editUser")}
           submit={this.saveUser}
-          delete={
-            this.state.activeUser
-              ? this.state.activeUser.custom
-                ? this.deleteUser
-                : false
-              : false
-          }
+          delete={() => this.deleteUser()}
         >
           <p className="sub-title mb--1">
             Editing{" "}
@@ -619,6 +641,7 @@ class Users extends React.Component {
           open={this.state.bulkUsersOpen}
           close={() => this.closeModal("bulkUsers")}
           submit={this.bulkSave}
+          delete={this.bulkDelete}
         >
           <p>
             You are editing all selected users, any changes will apply to them

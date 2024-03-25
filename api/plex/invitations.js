@@ -45,6 +45,18 @@ async function getPlexUser(plexUserIdentity) {
   }
 }
 
+async function deletePlexUser(plexUserId) {
+  const config = getConfig();
+  try {
+    await axios.delete(
+      `https://plex.tv/api/v2/friends/${plexUserId}?X-Plex-Token=${config.plexToken}&X-Plex-Client-Identifier=${config.plexClientID}`
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get plex user");
+  }
+}
+
 async function getLocalServer() {
   try {
     const config = getConfig();
@@ -151,4 +163,5 @@ module.exports = {
   getDistantServer,
   getLibrarySectionIds,
   addInvitation,
+  deletePlexUser,
 };
