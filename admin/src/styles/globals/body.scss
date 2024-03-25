@@ -40,3 +40,34 @@ body {
   overflow-y: auto;
   height: 100vh;
 }
+
+*::-webkit-scrollbar {
+  background-color: transparent;
+  width: 12px;
+  height: 12px;
+  z-index: 999999;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 12px;
+  border: 0 solid #4a443a;
+}
+
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background-color: #a0a0a5;
+  border: 2px solid #4a443a;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a5;
+  border: 2px solid #a0a0a5;
+}

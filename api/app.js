@@ -51,6 +51,7 @@ const discoveryRoute = require("./routes/discovery");
 const notificationsRoute = require("./routes/notifications");
 const batchRoute = require("./routes/batch");
 const { authRequired } = require("./middleware/auth");
+const { hooksRouter } = require("./routes/hooks.js");
 
 class Main {
   constructor() {
@@ -144,6 +145,7 @@ class Main {
       this.e.use("/review", authRequired, reviewRoute);
       this.e.use("/user", userRoute);
       this.e.use("/genie", authRequired, genieRoute);
+      this.e.use("/hooks", authRequired, hooksRouter);
       this.e.use("/invitation", userInvitationRouter);
       this.e.use("/invitations", authRequired, adminInvitationRouter);
       this.e.use("/sessions", authRequired, sessionsRoute);
