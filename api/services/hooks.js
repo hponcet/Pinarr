@@ -1,3 +1,4 @@
+const fetch = require("node-fetch");
 const getConfig = require("../util/config");
 const logger = require("../util/logger");
 
