@@ -7,6 +7,7 @@ const { addUserToPlexServer, getPlexUser } = require("../plex/invitations");
 const getConfig = require("../util/config");
 const updateConfig = require("../util/updateConfig");
 const LibraryUpdate = require("../plex/libraryUpdate");
+const hooks = require("../services/hooks");
 
 const adminInvitationRouter = express.Router();
 const userInvitationRouter = express.Router();
@@ -254,6 +255,12 @@ userInvitationRouter.post("/accept", async (req, res) => {
     logger.log({ level: "error", message: err.message });
     res.status(400).json({ level: "error", message: err.message });
     return;
+  }
+
+  try {
+    await hooks.runHook("usersImport");
+  } catch (error) {
+    console.log("Failed to run hook", error);
   }
 
   try {

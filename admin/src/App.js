@@ -15,6 +15,7 @@ import Reviews from "./page/Reviews";
 import Profile from "./page/Profile";
 import User from "./data/User";
 import Invitation from "./page/Invitation";
+import { Hooks } from "./page/Hooks";
 
 class App extends React.Component {
   constructor(props) {
@@ -308,6 +309,15 @@ class App extends React.Component {
                 <Route path="/issues">
                   <div className="page-wrap">
                     <Issues
+                      user={this.props.user}
+                      api={this.props.api}
+                      msg={this.msg}
+                    />
+                  </div>
+                </Route>
+                <Route path="/hooks">
+                  <div className="page-wrap">
+                    <Hooks
                       user={this.props.user}
                       api={this.props.api}
                       msg={this.msg}

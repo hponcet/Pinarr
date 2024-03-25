@@ -57,6 +57,11 @@
     margin-bottom: 0;
   }
 
+  &--items {
+    overflow-y: auto;
+    height: calc(100% - 100px);
+  }
+
   &--item {
     display: flex;
     align-items: center;

@@ -214,7 +214,7 @@ class Invitation extends React.Component {
             >
               Add +
             </button>
-            <div className="input-button-group-with-label">
+            <div className="input-button-group-with-label align-right">
               <label htmlFor="urlRedirection">
                 URL redirection after invitation acceptance
               </label>
