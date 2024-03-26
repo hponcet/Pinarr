@@ -275,18 +275,21 @@ router.post("/delete_user", adminRequired, async (req, res) => {
     logger.info(`ROUTE: ${user.email} deleted from hooks`);
   } catch (error) {
     logger.error(`ROUTE: Unable to run delete ${user.email} from hooks`);
-    logger.error({ level: "error", message: error });
+    logger.error({
+      level: "error",
+      message: error.stack || error.message || error,
+    });
   }
 
   try {
     await deletePlexUser(user.id);
     logger.info(`ROUTE: ${user.email} deleted from Plex`);
   } catch (error) {
-    console.log(error);
     logger.error(`ROUTE: Unable to run delete ${user.email} from Plex`);
-    logger.error({ level: "error", message: error });
-    res.status(500).json({ error: "Failed to delete user from Plex" });
-    return;
+    logger.error({
+      level: "error",
+      message: error.stack || error.message || error,
+    });
   }
 
   try {
