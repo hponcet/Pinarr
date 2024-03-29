@@ -21,6 +21,7 @@ const FriendSchema = mongoose.Schema(
     custom_thumb: String,
     lastLogin: Date,
     petioTimestamp: Date,
+    plexToken: String,
   },
   { collection: "friends" }
 );

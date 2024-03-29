@@ -11,6 +11,16 @@ async function authenticate(req) {
   let petioJwt;
   if (req.body.authToken) {
     petioJwt = req.body.authToken;
+
+    try {
+      await User.findOneAndUpdate(
+        { id: req.jwtUser.id },
+        { $set: { plexToken: req.body.authToken } },
+        { useFindAndModify: false }
+      );
+    } catch (error) {
+      logger.error(error.stack || error.message || error);
+    }
   } else if (req.cookies && req.cookies.petio_jwt) {
     petioJwt = req.cookies.petio_jwt;
   } else if (header && /^Bearer (.*)$/.test(header)) {

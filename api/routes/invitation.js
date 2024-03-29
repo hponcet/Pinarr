@@ -287,6 +287,17 @@ userInvitationRouter.post("/accept", async (req, res) => {
     logger.log({ level: "error", message: err.message });
     res.status(400).json({ level: "error", message: err.message });
   }
+
+  try {
+    await User.findOneAndUpdate(
+      { email: plexUser.email },
+      { $set: { plexToken: plexUserIdentity.authToken } },
+      { useFindAndModify: false }
+    );
+  } catch (error) {
+    logger.log("error", "ROUTE: Adding plexToken to user failed");
+    logger.log({ level: "error", message: err.stack || err.message });
+  }
 });
 
 userInvitationRouter.get("/:code", async (req, res) => {
