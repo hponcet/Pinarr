@@ -285,7 +285,9 @@ class Invitation extends React.Component {
                     <td>{invitedBy.email}</td>
                     <td>{email || "Anyone"}</td>
                     <td style={{ whiteSpace: "break-spaces" }}>
-                      {acceptedBy?.map((user) => user.email).join("\n")}
+                      {acceptedBy
+                        ?.map((user) => user?.email || "deleted acc")
+                        .join("\n")}
                     </td>
                     <td>{!maxUses ? "Unlimited" : `${used}/${maxUses}`}</td>
                     <td>
